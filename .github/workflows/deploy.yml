@@ -1,4 +1,4 @@
-name: Deploy to Vercel
+name: CI/CD Workflow for Bible Immersive App
 
 on:
   push:
@@ -8,16 +8,44 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
+      # Step 2: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Use Node.js LTS (16 or 18)
 
+      # Step 3: Clean up old installations
+      - name: Clean and Install Dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
+
+      # Step 4: Run Tailwind Configuration Check
+      - name: Validate Tailwind CSS Config
+        run: |
+          npx tailwindcss init
+          echo "tailwind.config.js initialized successfully."
+
+      # Step 5: Test Development Server Setup
+      - name: Run Dev Server (Test)
+        run: |
+          npm run dev -- --host=127.0.0.1 --port=5173 &
+          sleep 5
+          curl --fail http://127.0.0.1:5173 || exit 1
+        env:
+          NODE_ENV: development
+
+      # Step 6: Build Project
       - name: Build Project
         run: npm run build
 
+      # Step 7: Deploy to Vercel
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
