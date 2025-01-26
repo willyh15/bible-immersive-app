@@ -1,12 +1,14 @@
 module.exports = {
   ci: {
     collect: {
-      // URLs to test
-      url: ['https://your-deployed-app-url.vercel.app'],
+      // Use your deployed production URL
+      url: ['https://bible-immersive-app.vercel.app/'],
       numberOfRuns: 1,
+      settings: {
+        chromeFlags: '--no-sandbox', // Required for CI environments
+      },
     },
     assert: {
-      // Performance thresholds
       assertions: {
         'categories:performance': ['error', { minScore: 0.9 }],
         'categories:accessibility': ['error', { minScore: 0.9 }],
@@ -15,7 +17,6 @@ module.exports = {
       },
     },
     upload: {
-      // Specify where to store results (e.g., GitHub Actions artifacts)
       target: 'filesystem',
       outputDir: './lighthouse-results',
     },
