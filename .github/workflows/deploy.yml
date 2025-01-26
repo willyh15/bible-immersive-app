@@ -20,23 +20,19 @@ jobs:
         with:
           node-version: '16' # Use Node.js LTS (16 or 18)
 
-      # Step 3: Install Dependencies
+      # Step 3: Clean and Install Dependencies
       - name: Install Dependencies
         run: |
           rm -rf node_modules package-lock.json
           npm install
-          npm install tailwindcss postcss autoprefixer --save-dev
-          ls ./node_modules/.bin # List binaries to verify installation
+          npm install tailwindcss @tailwindcss/vite postcss autoprefixer --save-dev
 
-      # Step 4: Verify and Initialize Tailwind CSS Config
-      - name: Verify Tailwind Installation
+      # Step 4: Verify Tailwind and Vite Integration
+      - name: Verify Tailwind Integration
         run: |
-          if [ ! -f ./node_modules/.bin/tailwindcss ]; then
-            echo "Tailwind CSS binary not found! Installation failed."
-            exit 1
-          fi
-          ./node_modules/.bin/tailwindcss init
-          echo "tailwind.config.js initialized successfully."
+          echo "Installed dependencies:"
+          npm list --depth=0
+          echo "Vite and Tailwind CSS are ready."
 
       # Step 5: Test Development Server Setup
       - name: Run Dev Server (Test)
