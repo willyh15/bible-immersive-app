@@ -26,10 +26,12 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install
 
-      # Step 4: Install Tailwind CSS Globally (Temporary Fix)
+      # Step 4: Install Tailwind CSS Globally and Add to PATH
       - name: Install Tailwind CSS Globally
         run: |
           npm install -g tailwindcss
+          echo "Adding npm global bin directory to PATH"
+          echo "$HOME/.npm-global/bin" >> $GITHUB_PATH
           tailwindcss -v # Verify installation
 
       # Step 5: Run Tailwind Configuration Check
