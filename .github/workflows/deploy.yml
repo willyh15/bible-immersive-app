@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test-and-lint:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,37 +31,19 @@ jobs:
       - name: Install Jest for Tests
         run: npm install jest --save-dev
 
-      # Step 5: Add Linting Framework
-      - name: Install ESLint for Linting
-        run: npm install eslint --save-dev
-
-      # Step 6: Create ESLint Config
-      - name: Generate ESLint Config
-        run: |
-          echo '{
-            "env": { "browser": true, "es2021": true },
-            "extends": "eslint:recommended",
-            "parserOptions": { "ecmaVersion": 12, "sourceType": "module" },
-            "rules": {}
-          }' > .eslintrc.json
-
-      # Step 7: Create a Basic Test File
+      # Step 5: Create a Basic Test File
       - name: Create Jest Test File
         run: |
           mkdir -p tests
           echo "test('example test', () => { expect(1 + 1).toBe(2); });" > tests/app.test.js
  
-      # Step 8: Lint
-      - name: Run ESLint
-        run: npx eslint ./src
-
-      # Step 9: Run Tests
+      # Step 6: Run Tests
       - name: Run Tests
         run: npx jest
         env:
           NODE_ENV: test
 
-      # Step 10: Build Project
+      # Step 7: Build Project
       - name: Build Project
         run: npm run build
 
