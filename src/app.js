@@ -43,17 +43,21 @@ function load360Panorama() {
 }
 
 // Animate map container
-gsap.from('#map', {
+gsap.from('#map, #panorama', {
   opacity: 0,
-  scale: 0.9,
+  y: 20,
   duration: 1.5,
   ease: 'power3.out',
-});
-
-// Animate markers
-gsap.from('.leaflet-marker-icon', {
-  y: -50,
-  opacity: 0,
-  duration: 1,
   stagger: 0.3,
 });
+
+// Lazy load heavy elements
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && entry.target.id === 'map') {
+      map.invalidateSize();
+    }
+  });
+});
+
+observer.observe(document.getElementById('map'));
