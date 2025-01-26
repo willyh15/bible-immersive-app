@@ -30,8 +30,8 @@ jobs:
       - name: Install Tailwind CSS Globally
         run: |
           npm install -g tailwindcss
-          echo "Adding npm global bin directory to PATH"
-          echo "$HOME/.npm-global/bin" >> $GITHUB_PATH
+          echo "Adding global npm packages to PATH"
+          echo "/usr/local/bin" >> $GITHUB_PATH
           tailwindcss -v # Verify installation
 
       # Step 5: Run Tailwind Configuration Check
