@@ -50,10 +50,10 @@ jobs:
         run: |
           mkdir -p tests
           echo "test('example test', () => { expect(1 + 1).toBe(2); });" > tests/app.test.js
-
-      # Step 8: Run Linter
+ 
+      # Step 8: Lint
       - name: Run ESLint
-        run: npx eslint ./src --ext .js
+        run: npx eslint ./src
 
       # Step 9: Run Tests
       - name: Run Tests
