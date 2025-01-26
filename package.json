@@ -1,0 +1,23 @@
+{
+  "name": "bible-immersive-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "gsap": "^3.12.7",
+    "leaflet": "^1.9.4",
+    "pannellum": "^2.5.6",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.11"
+  }
+}
