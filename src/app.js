@@ -1,31 +1,38 @@
 import L from 'leaflet'; // Leaflet for maps
-import * as pannellum from 'pannellum'; // Correct import for Pannellum
 import { gsap } from 'gsap'; // GSAP for animations
 
-// Initialize Leaflet map
-const map = L.map('map').setView([31.7767, 35.2345], 13);
+// Initialize styled map
+const map = L.map('map', {
+  zoomControl: false,
+}).setView([31.7767, 35.2345], 13);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors',
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=YOUR_MAPBOX_ACCESS_TOKEN', {
+  id: 'mapbox/dark-v10', // Use "mapbox/light-v10" or other styles
+  tileSize: 512,
+  zoomOffset: -1,
+  attribution: '&copy; <a href="https://www.mapbox.com/">Mapbox</a>',
 }).addTo(map);
 
-const marker = L.marker([31.7767, 35.2345]).addTo(map).bindPopup(`
-  <b>Garden Tomb</b><br>
-  <button id="view360" class="bg-blue-500 text-white py-1 px-2 rounded">
-    View 360° Panorama
-  </button>
-`);
+// Add custom markers
+const marker = L.marker([31.7767, 35.2345], {
+  icon: L.icon({
+    iconUrl: './assets/custom-icon.png', // Add your custom icon
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  }),
+}).addTo(map);
 
+// Marker popup
+marker.bindPopup(`<b>Garden Tomb</b><br><button id="view360" class="btn">View 360° Panorama</button>`);
+
+// Panorama 360 functionality
 marker.on('click', () => {
-  const btn = document.getElementById('view360');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      load360Panorama();
-    });
-  }
+  document.getElementById('view360')?.addEventListener('click', () => {
+    load360Panorama();
+  });
 });
 
-// Load 360° Panorama
+// Load Panorama Viewer
 function load360Panorama() {
   pannellum.viewer('panorama', {
     type: 'equirectangular',
@@ -33,8 +40,8 @@ function load360Panorama() {
     autoLoad: true,
     hotSpots: [
       {
-        pitch: -2.1,
-        yaw: 120.2,
+        pitch: 0,
+        yaw: 120,
         type: 'info',
         text: 'He is risen! - Matthew 28:6',
       },
@@ -42,21 +49,20 @@ function load360Panorama() {
   });
 }
 
-// Animate map and panorama containers
-gsap.from('#map, #panorama', {
-  opacity: 0,
-  y: 20,
-  duration: 1.5,
-  ease: 'power3.out',
-  stagger: 0.3,
-});
-
-// Lazy load map when it enters the viewport
+// Lazy load map
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
-    if (entry.isIntersecting && entry.target.id === 'map') {
+    if (entry.isIntersecting) {
       map.invalidateSize();
     }
   });
 });
 observer.observe(document.getElementById('map'));
+
+// Animations
+gsap.from('#map, #panorama', {
+  opacity: 0,
+  scale: 0.95,
+  duration: 1.2,
+  ease: 'power3.out',
+});
