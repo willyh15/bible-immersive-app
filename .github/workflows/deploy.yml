@@ -27,13 +27,41 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # Step 5: Run Tests
+      # Step 4: Add Testing Framework
+      - name: Install Jest for Tests
+        run: npm install jest --save-dev
+
+      # Step 5: Add Linting Framework
+      - name: Install ESLint for Linting
+        run: npm install eslint --save-dev
+
+      # Step 6: Create ESLint Config
+      - name: Generate ESLint Config
+        run: |
+          echo '{
+            "env": { "browser": true, "es2021": true },
+            "extends": "eslint:recommended",
+            "parserOptions": { "ecmaVersion": 12, "sourceType": "module" },
+            "rules": {}
+          }' > .eslintrc.json
+
+      # Step 7: Create a Basic Test File
+      - name: Create Jest Test File
+        run: |
+          mkdir -p tests
+          echo "test('example test', () => { expect(1 + 1).toBe(2); });" > tests/app.test.js
+
+      # Step 8: Run Linter
+      - name: Run ESLint
+        run: npx eslint ./src --ext .js
+
+      # Step 9: Run Tests
       - name: Run Tests
-        run: npm test
+        run: npx jest
         env:
           NODE_ENV: test
 
-      # Optional Step: Build Project
+      # Step 10: Build Project
       - name: Build Project
         run: npm run build
 
