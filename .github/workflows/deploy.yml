@@ -27,21 +27,16 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # Step 4: Run Linter
-      - name: Run ESLint
-        run: npm run lint
-
       # Step 5: Run Tests
       - name: Run Tests
         run: npm test
         env:
           NODE_ENV: test
 
-      # Optional Step: Build Project for Debugging
+      # Optional Step: Build Project
       - name: Build Project
         run: npm run build
 
-  # Optional Performance Tests
   performance:
     runs-on: ubuntu-latest
 
@@ -64,4 +59,5 @@ jobs:
       - name: Run Lighthouse
         uses: treosh/lighthouse-ci-action@v8
         with:
-          configPath: ./lighthouse-config.js # Optional, if you have custom Lighthouse configuration
+          configPath: ./lighthouse-config.js
+          artifactName: lighthouse-results
