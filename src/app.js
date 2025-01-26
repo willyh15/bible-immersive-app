@@ -1,5 +1,5 @@
 import L from 'leaflet'; // Leaflet for maps
-import pannellum from 'pannellum'; // Pannellum for 360° viewer
+import * as pannellum from 'pannellum'; // Correct import for Pannellum
 import { gsap } from 'gsap'; // GSAP for animations
 
 // Initialize Leaflet map
