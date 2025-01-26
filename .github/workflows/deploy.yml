@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Use Node.js LTS (16 or 18)
+          node-version: '18' # Use Node.js 18 (LTS)
 
       # Step 3: Clean and Install Dependencies
       - name: Install Dependencies
