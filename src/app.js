@@ -42,7 +42,7 @@ function load360Panorama() {
   });
 }
 
-// Animate map container
+// Animate map and panorama containers
 gsap.from('#map, #panorama', {
   opacity: 0,
   y: 20,
@@ -51,7 +51,7 @@ gsap.from('#map, #panorama', {
   stagger: 0.3,
 });
 
-// Lazy load heavy elements
+// Lazy load map when it enters the viewport
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting && entry.target.id === 'map') {
@@ -59,5 +59,4 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 });
-
 observer.observe(document.getElementById('map'));
