@@ -27,23 +27,17 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # Step 4: Add Testing Framework
-      - name: Install Jest for Tests
-        run: npm install jest --save-dev
-
-      # Step 5: Create a Basic Test File
-      - name: Create Jest Test File
+      # Step 4: Run Tests
+      - name: Run Tests
         run: |
+          npm install jest --save-dev
           mkdir -p tests
           echo "test('example test', () => { expect(1 + 1).toBe(2); });" > tests/app.test.js
- 
-      # Step 6: Run Tests
-      - name: Run Tests
-        run: npx jest
+          npx jest
         env:
           NODE_ENV: test
 
-      # Step 7: Build Project
+      # Step 5: Build Project
       - name: Build Project
         run: npm run build
 
