@@ -23,8 +23,11 @@ jobs:
       # Step 3: Clean and Install Dependencies
       - name: Install Dependencies
         run: |
+          echo "Cleaning up old node_modules and package-lock.json..."
           rm -rf node_modules package-lock.json
+          echo "Installing dependencies..."
           npm install
+          echo "Installing Tailwind and Vite-related packages..."
           npm install tailwindcss @tailwindcss/vite postcss autoprefixer --save-dev
 
       # Step 4: Verify Tailwind and Vite Integration
@@ -32,23 +35,29 @@ jobs:
         run: |
           echo "Installed dependencies:"
           npm list --depth=0
-          echo "Vite and Tailwind CSS are ready."
+          echo "Vite and Tailwind CSS are installed and ready."
 
       # Step 5: Test Development Server Setup
       - name: Run Dev Server (Test)
         run: |
+          echo "Starting the development server for testing..."
           npm run dev -- --host=127.0.0.1 --port=5173 &
           sleep 5
+          echo "Testing if the server is running..."
           curl --fail http://127.0.0.1:5173 || exit 1
         env:
           NODE_ENV: development
 
       # Step 6: Build Project
       - name: Build Project
-        run: npm run build
+        run: |
+          echo "Building the project for production..."
+          npm run build
 
       # Step 7: Deploy to Vercel
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel --prod --yes
+        run: |
+          echo "Deploying to Vercel..."
+          npx vercel --prod --yes
