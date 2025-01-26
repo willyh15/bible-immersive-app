@@ -20,26 +20,19 @@ jobs:
         with:
           node-version: '16' # Use Node.js LTS (16 or 18)
 
-      # Step 3: Clean up old installations and install dependencies
-      - name: Clean and Install Dependencies
+      # Step 3: Install Dependencies
+      - name: Install Dependencies
         run: |
-          rm -rf node_modules package-lock.json
           npm install
 
-      # Step 4: Install Tailwind CSS Globally and Debug Installation
-      - name: Install Tailwind CSS Globally
+      # Step 4: Install Tailwind CSS Locally
+      - name: Install Tailwind CSS
         run: |
-          npm install -g tailwindcss
-          echo "Global npm bin path: $(npm bin -g)"
-          echo "Adding npm global bin directory to PATH"
-          export PATH=$(npm bin -g):$PATH
-          echo $PATH
-          ls $(npm bin -g) # List all installed global npm binaries
-          which tailwindcss || echo "tailwindcss binary not found"
-          tailwindcss -v || echo "tailwindcss command failed"
+          npm install tailwindcss postcss autoprefixer --save-dev
+          echo "Tailwind CSS installed locally"
 
-      # Step 5: Run Tailwind Configuration Check
-      - name: Validate Tailwind CSS Config
+      # Step 5: Initialize Tailwind CSS Config
+      - name: Initialize Tailwind CSS Config
         run: |
           npx tailwindcss init
           echo "tailwind.config.js initialized successfully."
