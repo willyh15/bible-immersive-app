@@ -20,24 +20,20 @@ jobs:
         with:
           node-version: '16' # Use Node.js LTS (16 or 18)
 
-      # Step 3: Install Dependencies
+      # Step 3: Clean and Install Dependencies
       - name: Install Dependencies
         run: |
+          rm -rf node_modules package-lock.json
           npm install
-
-      # Step 4: Install Tailwind CSS Locally
-      - name: Install Tailwind CSS
-        run: |
           npm install tailwindcss postcss autoprefixer --save-dev
-          echo "Tailwind CSS installed locally"
 
-      # Step 5: Initialize Tailwind CSS Config
+      # Step 4: Initialize Tailwind CSS Config
       - name: Initialize Tailwind CSS Config
         run: |
-          npx tailwindcss init
+          ./node_modules/.bin/tailwindcss init
           echo "tailwind.config.js initialized successfully."
 
-      # Step 6: Test Development Server Setup
+      # Step 5: Test Development Server Setup
       - name: Run Dev Server (Test)
         run: |
           npm run dev -- --host=127.0.0.1 --port=5173 &
@@ -46,11 +42,11 @@ jobs:
         env:
           NODE_ENV: development
 
-      # Step 7: Build Project
+      # Step 6: Build Project
       - name: Build Project
         run: npm run build
 
-      # Step 8: Deploy to Vercel
+      # Step 7: Deploy to Vercel
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
