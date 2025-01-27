@@ -6,7 +6,7 @@ const map = L.map('map', {
   zoomControl: false,
 }).setView([31.7767, 35.2345], 13);
 
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=YOUR_MAPBOX_ACCESS_TOKEN', {
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid2lsbHloMTUiLCJhIjoiY202ZWZxb3Q4MGhkODJqcHE2Mm5mY2ptayJ9.s0snQgTcuo47jdrQ5zmb0A', {
   id: 'mapbox/dark-v10', // Use "mapbox/light-v10" or other styles
   tileSize: 512,
   zoomOffset: -1,
@@ -23,13 +23,19 @@ const marker = L.marker([31.7767, 35.2345], {
 }).addTo(map);
 
 // Marker popup
-marker.bindPopup(`<b>Garden Tomb</b><br><button id="view360" class="btn">View 360° Panorama</button>`);
+marker.bindPopup(`
+  <b>Garden Tomb</b><br>
+  <button id="view360" class="btn">View 360° Panorama</button>
+`);
 
 // Panorama 360 functionality
 marker.on('click', () => {
-  document.getElementById('view360')?.addEventListener('click', () => {
-    load360Panorama();
-  });
+  const button = document.getElementById('view360');
+  if (button) {
+    button.addEventListener('click', () => {
+      load360Panorama();
+    });
+  }
 });
 
 // Load Panorama Viewer
